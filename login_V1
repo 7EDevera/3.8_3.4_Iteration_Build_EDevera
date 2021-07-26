@@ -21,7 +21,7 @@
 				$_SESSION['login_user'] = $myusername;
 				header("location: index.html");
 			} else {
-				$error = "ERROR! Your lgoin Name or Password is fkn invalud mate. You funky moneky!";
+				$error = "Invalid Credentials. Please Try Again";
 				}
 		}
 	ob_end_flush();
@@ -40,32 +40,69 @@
 		
 		<div class="grid-container">
 			
-			<div class="nav">
+			<div class="nav" style="background-image: url('8.jpg'); background-size: 100vw 60vw;">
 				<ul>
-					<li><a href="index.html">Home</a></li>
-					<li><a href>Contact</a></li>
+					<li><a href="index.html">ZEPHYRUS</a></li>
 				</ul>
 			</div>
 			
-			<div class="content">
+			<div class="content" style="background-image: url('8.jpg'); background-size: 100vw 60vw;">
 			
 				<div class="scroll-area">
+					
+					<h1>Feel The Beat.</h1>
+					<h2>Find your Journey</h2>
 				
 				</div>
 		
 			</div>
 			
 			<div class="section3">
+				
+				<h3 style="color: darkblue; margin: 6vw 0vw 0vw 13vw; font-size: 2vw; font-weight: bold;">LOGIN</h3>
 			
-				Login
+				<h3><form method = "post" id = "01_login">
+					<input style="border: none; 
+								border-bottom: 0.25vw solid darkblue;
+								padding: 0.4vw 0.6vw;
+								margin: 2vw 2vw 0vw 4.5vw;
+								width: 21vw;
+								font-size: 1.2vw;"
+					type = "text" name = "username" placeholder="Username"/>
+					
+					<input type = "password" name = "password" placeholder="Password" id = "myInput"/>
+					
+					<!-- An element to toggle between password visibility -->
+					
+					<input type="checkbox" onclick="myFunction()"><label for="checkbox" style="font-size: 1vw; font-weight: normal;">Show Password</label>
+					
+					<input type = "submit" value = "Submit"/>
+					
+					<a href="https://www.w3schools.com/" style="color: darkblue; font-size:1vw; font-weight: normal; margin: 0vw 0vw 0vw 12vw;">Register New User</a>
+						
+					</form></h3><h3 style="color: red; margin: 0vw 7vw; font-size: 1.1vw; font-weight: normal;"><?php echo $error; ?></h3>
 		
 			</div>
 			
-			<div class="contact">Footer</div>
+			<div class="contact"></div>
 	
-			<div class="footer">Footer</div>
+			<div class="footer"></div>
 		
 		</div>
+		
+		<script>
+			function myFunction() {
+			  var x = document.getElementById("myInput");
+			  if (x.type === "password") {
+				x.type = "text";
+			  } else {
+				x.type = "password";
+			  }
+			}
+		</script>
 	
 	</body>
+
 </html>
+
+
