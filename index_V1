@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -10,6 +9,19 @@
 		<meta name="Viewport" content="width=device-width, inital-scale=1">
 		
 		<link rel="stylesheet" href="css/style_index.css">
+		
+		<style>
+			
+			.circle_1:hover {transform: scale(1.1, 1.1); transition: 0.6s;}
+			.circle_1:hover p {transform: scale(0.909, 0.909); transition: 0.6s;}
+			.circle_2:hover {transform: scale(1.1, 1.1); transition: 0.6s;}
+			.circle_2:hover p {transform: scale(0.909, 0.909); transition: 0.6s;}
+			.circle_3:hover {transform: scale(1.1, 1.1); transition: 0.6s;}
+			.circle_3:hover p {transform: scale(0.909, 0.909); transition: 0.6s;}
+			.circle_4:hover {transform: scale(1.1, 1.1); transition: 0.6s;}
+			.circle_4:hover p {transform: scale(0.909, 0.909); transition: 0.6s;}
+			
+		</style>
 		
 	</head>
 	
@@ -31,6 +43,14 @@
 				
 				<div class="table">
 					
+					<div onclick="location.href='query_1.php';" class="circle_1" style="cursor: pointer; grid-column: 1; background-color: #e6e6e6; border-radius: 30vw; margin: 0vw 1.5vw; transition: 0.6s;"><p style="margin: 15vw 3.5vw; transition: 0.6s;">Put Link Here</p></div>
+					
+					<div onclick="location.href='query_1.php';"class="circle_2" style="cursor: pointer; grid-column: 2; background-color: #e6e6e6; border-radius: 30vw; margin: 0vw 1.5vw; transition: 0.6s;"><p style="margin: 15vw 3.5vw; transition: 0.6s;">Put Link Here</p></div>
+					
+					<div onclick="location.href='query_1.php';"class="circle_3" style="cursor: pointer; grid-column: 3; background-color: #e6e6e6; border-radius: 30vw; margin: 0vw 1.5vw; transition: 0.6s;"><p style="margin: 15vw 3.5vw; transition: 0.6s;">Put Link Here</p></div>
+					
+					<div onclick="location.href='query_1.php';"class="circle_4" style="cursor: pointer; grid-column: 4; background-color: #e6e6e6; border-radius: 30vw; margin: 0vw 1.5vw; transition: 0.6s;"><p style="margin: 15vw 3.5vw; transition: 0.6s;">Put Link Here</p></div>
+				
 				</div>
 			
 			</div>
@@ -43,6 +63,16 @@
 				
 				<div class="table_2">
 					
+					<div class="text" style="grid-column: 1; background-color: grey; margin: 0vw 1vw;"></div>
+					
+					<div onclick="location.href='query_1.php';" class="circle_1" style="cursor: pointer; grid-column: 2; background-color: #e6e6e6; margin: 1vw 1vw; transition: 0.6s;"></div>
+					
+					<div onclick="location.href='query_1.php';" class="circle_2" style="cursor: pointer; grid-column: 3; background-color: #e6e6e6; margin: 1vw 1vw; transition: 0.6s;"></div>
+					
+					<div onclick="location.href='query_1.php';" class="circle_3" style="cursor: pointer; grid-column: 4; background-color: #e6e6e6; margin: 1vw 1vw; transition: 0.6s;"></div>
+					
+					<div onclick="location.href='query_1.php';" class="circle_4" style="cursor: pointer; grid-column: 5; background-color: #e6e6e6; margin: 1vw 1vw; transition: 0.6s;"></div>
+				
 				</div>
 			
 			</div>
@@ -57,6 +87,14 @@
 					
 					<div class="text" style="grid-column: 1; background-color: grey; margin: 0vw 1vw;"></div>
 					
+					<div onclick="location.href='query_1.php';" class="circle_1" style="cursor: pointer; grid-column: 2; background-color: #e6e6e6; margin: 1vw 1vw; transition: 0.6s;"></div>
+					
+					<div onclick="location.href='query_1.php';" class="circle_2" style="cursor: pointer; grid-column: 3; background-color: #e6e6e6; margin: 1vw 1vw; transition: 0.6s;"></div>
+					
+					<div onclick="location.href='query_1.php';" class="circle_3" style="cursor: pointer; grid-column: 4; background-color: #e6e6e6; margin: 1vw 1vw; transition: 0.6s;"></div>
+					
+					<div onclick="location.href='query_1.php';" class="circle_4" style="cursor: pointer; grid-column: 5; background-color: #e6e6e6; margin: 1vw 1vw; transition: 0.6s;"></div>
+				
 				</div>
 			
 			</div>
