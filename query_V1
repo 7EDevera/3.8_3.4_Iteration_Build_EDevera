@@ -1,0 +1,103 @@
+<?php
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset = "utf-8" />
+		<title>Login</title>
+		
+		<link rel="stylesheet" href="css/style_query.css">
+		
+		<style>
+			.row:nth-child(even) {background-color: white;}
+		</style>
+		
+	</head>
+	<body>
+		
+		<div class="grid-container">
+			
+			<div class="sidenav">
+				
+				<p style="color: white; position: fixed; top: 0vw;">Test</p>
+				
+				<p style="color: white; position: fixed; top: 2vw;">Test</p>
+				
+				<p style="color: white; position: fixed; top: 4vw;">Test</p>
+				
+				<p style="color: white; position: fixed; top: 6vw;">Test</p>
+			
+			</div>
+			
+			<div class="banner"></div>
+			
+			<div class="strip" style="position: sticky; top: 0vw;">
+			
+				<p style="color: white;">Test</p>
+			
+			</div>
+			
+			<div class="content" style="padding: 2vw 5vw;">
+				
+				<div class="container" style="margin: 0vw 0vw;">
+				
+					<?php
+							require "Database_mysqli.php";
+
+							//Creates a varible to store the sql query
+							$query = ("SELECT s.Song_ID, s.Title, g.Genre, ar.Artist, a.Album, s.Duration, s.Size
+							FROM Songs AS s 
+
+							INNER JOIN Album_PK a ON s.Album_FK = a.Album_PK
+
+							JOIN ID_To_Genre j1 ON s.Song_ID = j1.Song_ID
+							JOIN Genre_PK g ON g.Genre_PK = j1.Genre_FK
+
+							JOIN ID_To_Artist j2 ON s.Song_ID = j2.Song_ID
+							JOIN Artist_PK ar ON ar.Artist_PK = j2.Artist_FK
+
+							WHERE 1
+							ORDER BY s.Title DESC, ar.Artist DESC");
+
+							//Runs and stores the query using the varibles $con (see nav.php) and $query
+							$result = mysqli_query($conn,$query);
+							//runs in a 'while' loop
+							while($output=mysqli_fetch_array($result))
+							{
+						?>
+						<!--php is above. HTML is below. Used to output the query results-->
+
+						<div class="row" style="display: grid; grid-template-columns: 0.3fr 1.2fr 0.7fr 0.8fr 1fr 0.3fr; background-color: lightgrey;">
+
+							<div class="ID" style="grid-column: 1;"><p><?php echo $output['Song_ID']; ?></p></div>
+
+							<div class="Title" style="grid-column: 2;"><p><?php echo $output['Title']; ?></p></div>
+
+							<div class="Genre" style="grid-column: 3;"><p><?php echo $output['Genre']; ?></p></div>
+
+							<div class="Artist" style="grid-column: 4;"><p><?php echo $output['Artist']; ?></p></div>
+
+							<div class="Album" style="grid-column: 5;"><p><?php echo $output['Album']; ?></p></div>
+
+							<div class="Duration" style="grid-column: 6;"><p><?php echo $output['Duration']; ?></p></div>
+
+						</div>
+					
+						<?php
+						//Closes the output while loop
+						}
+						?>
+					
+					
+				</div>
+			
+			
+			</div>
+		
+		</div>
+	
+	</body>
+
+</html>
