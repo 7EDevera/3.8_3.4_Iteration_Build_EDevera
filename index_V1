@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Zephyrus | Free Music</title>
+		<meta charset="utf-8">
+		<meta name="Keywords" content="Zephyrus"/>
+		<meta name="Author" content="EDevera"/>
+		<meta name="Description" content="CSS Grid System Layout Tutorial"/>
+		<meta name="Viewport" content="width=device-width, inital-scale=1">
+		
+		<link rel="stylesheet" href="css/style_index.css">
+		
+	</head>
+	
+	<body>
+		
+		<div class="grid-container">
+			
+			<div class="nav">
+				<ul>
+					<li><a href="index.html" style="color: skyblue;">ZEPHYRUS</a></li>
+					<li style="margin-right: -1vw;"><a href="login.php">Settings</a></li>
+					<li style="margin-right: 0vw;"><a href="login.php">Sign Out</a></li>
+				</ul>
+			</div>
+			
+			<div class="header"></div>
+			
+			<div class="circles">
+				
+				<div class="table">
+					
+				</div>
+			
+			</div>
+			
+			<div class="divider"></div>
+			
+			<div class="album_1">
+			
+			<div class="circles">
+				
+				<div class="table_2">
+					
+				</div>
+			
+			</div>
+			
+			</div>
+			
+			<div class="album_2">
+			
+			<div class="circles">
+				
+				<div class="table_2" style="margin: 2vw 15vw;">
+					
+					<div class="text" style="grid-column: 1; background-color: grey; margin: 0vw 1vw;"></div>
+					
+				</div>
+			
+			</div>
+				
+			</div>
+			
+			<div class="highlight"></div>
+			
+			<div class="footer"></div>
+		
+		</div>
+	
+	</body>
+</html>
