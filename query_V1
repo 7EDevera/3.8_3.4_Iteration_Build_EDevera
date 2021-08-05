@@ -1,5 +1,20 @@
 <?php
+		session_start();
+		if(!isset($_SESSION['login_user'])){
+				header("location:login.php");
+				}
+		else{
+			$User = $_SESSION['login_user'];
+		}
+?>
 
+<?php
+	if(!isset($_SESSION['search-query'])){
+			header("location: index_V2.php");
+			}
+	else{
+		$searched = $_SESSION['search-query'];
+	}
 ?>
 
 <!DOCTYPE html>
@@ -11,43 +26,58 @@
 		<link rel="stylesheet" href="css/style_query.css">
 		
 		<style>
-			.row:nth-child(even) {background-color: white;}
+			
+			@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap');
+			
+			html {
+				overflow-x: hidden;
+				scroll-behavior: smooth;
+			}
+			
+			.bottom-to-top:hover img{transform: scale(1.1, 1.1); transition: 0.6s;}
+			.bottom-to-top, img {transition: 0.6s;}
+			
+			.grid-container {
+				display: grid;
+				grid-template-columns: 20vw 80vw;
+				grid-template-rows: 10vw 8vw 245vw 10vw;
+			}
+			
+			.row:hover {
+				background-color: lightgrey;
+				transition: 0.15s ease-in-out;
+				cursor: pointer;
+			}
+			
+			.index:hover {transform: scale(1.1, 1.1); transition: 0.6s;}
+			.index {transition: 0.6s;}
+			
+			.settings:hover {transform: scale(1.1, 1.1); transition: 0.6s;}
+			.settings {transition: 0.6s;}
+			
+			.sign-out:hover {transform: scale(1.1, 1.1); transition: 0.6s;}
+			.sign-out {transition: 0.6s;}
+			
 		</style>
 		
 	</head>
 	<body>
 		
 		<div class="grid-container">
+			<?php
+				//Pulls the links from the nav.php page and places them in the navigation div
+				require 'nav.php'; //'require' is 100% needed for the site to run 
+			?>
 			
-			<div class="sidenav">
-				
-				<p style="color: white; position: fixed; top: 0vw;">Test</p>
-				
-				<p style="color: white; position: fixed; top: 2vw;">Test</p>
-				
-				<p style="color: white; position: fixed; top: 4vw;">Test</p>
-				
-				<p style="color: white; position: fixed; top: 6vw;">Test</p>
+			<?php
+				require 'loading.php';
+			?>
 			
-			</div>
-			
-			<div class="banner"></div>
-			
-			<div class="strip" style="position: sticky; top: 0vw;">
-			
-				<p style="color: white;">Test</p>
-			
-			</div>
-			
-			<div class="content" style="padding: 2vw 5vw;">
-				
-				<div class="container" style="margin: 0vw 0vw;">
-				
-					<?php
+			<?php
 							require "Database_mysqli.php";
 
 							//Creates a varible to store the sql query
-							$query = ("SELECT s.Song_ID, s.Title, g.Genre, ar.Artist, a.Album, s.Duration, s.Size
+							$query_2 = ("SELECT SEC_TO_TIME(SUM(s.Duration)) AS 'Total'
 							FROM Songs AS s 
 
 							INNER JOIN Album_PK a ON s.Album_FK = a.Album_PK
@@ -58,30 +88,127 @@
 							JOIN ID_To_Artist j2 ON s.Song_ID = j2.Song_ID
 							JOIN Artist_PK ar ON ar.Artist_PK = j2.Artist_FK
 
-							WHERE 1
-							ORDER BY s.Title DESC, ar.Artist DESC");
+							WHERE s.title LIKE '%$searched%' or g.Genre LIKE '%$searched%' or ar.Artist LIKE '%$searched%' or a.Album LIKE '%$searched%' or s.Duration LIKE '%$searched%'");
+
+							//Runs and stores the query using the varibles $con (see nav.php) and $query
+							$total = mysqli_query($conn,$query_2);
+							//runs in a 'while' loop
+							while($output_2=mysqli_fetch_array($total))
+							{
+							
+						?>
+			
+			<div id="top" style="grid-row: 1; grid-column: 1;"></div>
+			
+			<div class="banner" style="background-image: url('images/banner_search.jpg'); background-size: 80vw 18vw; z-index: 100;"></div>
+			
+			<div class="strip" style="position: sticky; top: 0vw; background-image: url('images/banner_search.jpg'); background-size: 80vw 18vw; background-position: 0vw 8vw; z-index: 100;">
+
+				<div style="margin: 2vw 3vw 0vw 5vw; height: 2vw; width: 50vw; background-color: transparent;">
+
+					<h3 style="margin: -0.1vw 0vw; float: left; color: white; font-size: 1.9vw; font-family: 'Noto Sans JP', sans-serif;">Dynamic Query</h3>
+
+				</div>
+				<div style="margin: 0.5vw 5vw; height: 1vw; width: 12vw; background-color: transparent;">
+
+					<h5 style="font-family: 'Noto Sans JP', sans-serif; margin: -0.15vw 0vw; width: 40vw; float: left; color: white; font-size: 1vw;">Search Results For "<?php echo $searched ?>"</h5>
+
+				</div>
+				
+				<div style="margin: -1vw 5vw 0vw 68vw; height: 1vw; width: 12vw; background-color: transparent;">
+					
+					<img src="images/icon_8.png" img draggable="false" alt="Blue" style="width: 1vw; height: 1vw; margin: 0vw;">
+
+					<h5 style="font-family: 'Noto Sans JP', sans-serif; margin: -0.35vw 6.3vw 0vw 0vw; float: right; color: white; font-size: 1vw;"><?php echo $output_2['Total']; ?></h5>
+
+				</div>
+				
+				<?php
+						//Closes the output while loop
+						}
+						?>
+
+			</div>
+
+			
+			<div class="content" style="padding: 0vw 5vw;">
+				
+				<div class="container" style="margin: 0vw 0vw;">
+					
+					<div class="row" style="display: grid; grid-template-columns: 0.3fr 1.2fr 0.7fr 0.8fr 1fr 0.3fr; 
+					border-bottom: 0.1vw solid grey; transition: 0.15s ease-in-out; background-color: white; position: sticky; top: 8vw;">
+
+							<div class="ID" style="grid-column: 1;"><p style="margin: 0.5vw 2vw; font-size: 1vw; color: white;">No.</p></div>
+
+							<div class="Title" style="grid-column: 2;"><p style="margin: 0.5vw; font-weight: bold; font-size: 1vw; color: white;">Title</p></div>
+
+							<div class="Genre" style="grid-column: 3;"><p style="margin: 0.5vw; font-size: 1vw; color: white;">Genre</p></div>
+
+							<div class="Artist" style="grid-column: 4;"><p style="margin: 0.5vw; font-size: 1vw; color: white;">Artist</p></div>
+
+							<div class="Album" style="grid-column: 5;"><p style="margin: 0.5vw; font-size: 1vw; color: white;">Album</p></div>
+
+							<div class="Duration" style="grid-column: 6;"><p style="margin: 0.5vw; font-size: 1vw; color: white;">Secs</p></div>
+
+						</div>
+					
+					<div class="row" style="display: grid; grid-template-columns: 0.3fr 1.2fr 0.7fr 0.8fr 1fr 0.3fr; 
+					border-bottom: 0.1vw solid grey; transition: 0.15s ease-in-out; background-color: #b3b3b3; position: sticky; top: 10vw;">
+
+							<div class="ID" style="grid-column: 1;"><p style="margin: 0.5vw 2vw; font-size: 1vw;">No.</p></div>
+
+							<div class="Title" style="grid-column: 2;"><p style="margin: 0.5vw; font-weight: bold; font-size: 1vw;">Title</p></div>
+
+							<div class="Genre" style="grid-column: 3;"><p style="margin: 0.5vw; font-size: 1vw;">Genre</p></div>
+
+							<div class="Artist" style="grid-column: 4;"><p style="margin: 0.5vw; font-size: 1vw;">Artist</p></div>
+
+							<div class="Album" style="grid-column: 5;"><p style="margin: 0.5vw; font-size: 1vw;">Album</p></div>
+
+							<div class="Duration" style="grid-column: 6;"><p style="margin: 0.5vw; font-size: 1vw;">Secs</p></div>
+
+						</div>
+				
+					<?php
+							require "Database_mysqli.php";
+
+							//Creates a varible to store the sql query
+							$query = ("SELECT s.Song_ID, s.Title, g.Genre, ar.Artist, a.Album, SEC_TO_TIME(s.Duration) AS 'Duration', s.Size
+							FROM Songs AS s 
+
+							INNER JOIN Album_PK a ON s.Album_FK = a.Album_PK
+
+							JOIN ID_To_Genre j1 ON s.Song_ID = j1.Song_ID
+							JOIN Genre_PK g ON g.Genre_PK = j1.Genre_FK
+
+							JOIN ID_To_Artist j2 ON s.Song_ID = j2.Song_ID
+							JOIN Artist_PK ar ON ar.Artist_PK = j2.Artist_FK
+
+							WHERE s.title LIKE '%$searched%' or g.Genre LIKE '%$searched%' or ar.Artist LIKE '%$searched%' or a.Album LIKE '%$searched%' or s.Duration LIKE '%$searched%'
+							ORDER BY s.Title ASC, ar.Artist ASC");
 
 							//Runs and stores the query using the varibles $con (see nav.php) and $query
 							$result = mysqli_query($conn,$query);
 							//runs in a 'while' loop
 							while($output=mysqli_fetch_array($result))
 							{
+							
 						?>
 						<!--php is above. HTML is below. Used to output the query results-->
 
-						<div class="row" style="display: grid; grid-template-columns: 0.3fr 1.2fr 0.7fr 0.8fr 1fr 0.3fr; background-color: lightgrey;">
+						<div class="row" style="display: grid; grid-template-columns: 0.3fr 1.2fr 0.7fr 0.8fr 1fr 0.3fr; border-bottom: 0.1vw solid grey; transition: 0.15s ease-in-out;">
 
-							<div class="ID" style="grid-column: 1;"><p><?php echo $output['Song_ID']; ?></p></div>
+							<div class="ID" style="grid-column: 1;"><p style="margin: 0.5vw 2vw; font-size: 1vw;"><?php echo $output['Song_ID']; ?></p></div>
 
-							<div class="Title" style="grid-column: 2;"><p><?php echo $output['Title']; ?></p></div>
+							<div class="Title" style="grid-column: 2; border-right: 0.1vw solid grey;"><p style="margin: 0.5vw; font-weight: bold; font-size: 1vw;"><?php echo $output['Title']; ?></p></div>
 
-							<div class="Genre" style="grid-column: 3;"><p><?php echo $output['Genre']; ?></p></div>
+							<div class="Genre" style="grid-column: 3;"><p style="margin: 0.5vw; font-size: 1vw;"><?php echo $output['Genre']; ?></p></div>
 
-							<div class="Artist" style="grid-column: 4;"><p><?php echo $output['Artist']; ?></p></div>
+							<div class="Artist" style="grid-column: 4;"><p style="margin: 0.5vw; font-size: 1vw;"><?php echo $output['Artist']; ?></p></div>
 
-							<div class="Album" style="grid-column: 5;"><p><?php echo $output['Album']; ?></p></div>
+							<div class="Album" style="grid-column: 5;"><p style="margin: 0.5vw; font-size: 1vw;"><?php echo $output['Album']; ?></p></div>
 
-							<div class="Duration" style="grid-column: 6;"><p><?php echo $output['Duration']; ?></p></div>
+							<div class="Duration" style="grid-column: 6;"><p style="margin: 0.5vw; font-size: 1vw;"><?php echo $output['Duration']; ?></p></div>
 
 						</div>
 					
@@ -95,9 +222,22 @@
 			
 			
 			</div>
+			
+			<div class="footer" style="background-color: lightgrey; grid-row: 4; grid-column: 2;">
+				
+				<a href="query_search.php#top" class="bottom-to-top"><img src="images/icon_7.png" style="height: 6vw; width: 6vw; margin: 2vw 0vw 0vw 69vw;" draggable="false"></a>
+			
+			</div>
+
+		
 		
 		</div>
+		
+		<script type="text/javascript">
+			$('div:odd').css('background-color', 'red');
+		</script>
 	
 	</body>
 
 </html>
+
