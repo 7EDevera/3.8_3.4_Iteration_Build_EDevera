@@ -58,7 +58,7 @@
 			.circle_4:hover img{transform: scale(1.1, 1.1); transition: 0.6s;}
 			.circle_4, img {transition: 0.6s;}
 			
-			.bottom-to-top:hover img{transform: scale(1.1, 1.1); transition: 0.6s;}
+			.bottom-to-top:hover img{transform: scale(1.05, 1.05); transition: 0.6s;}
 			.bottom-to-top, img {transition: 0.6s;}
 			
 		</style>
