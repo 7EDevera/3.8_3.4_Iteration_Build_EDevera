@@ -1,37 +1,32 @@
+
 <?php
-	ob_start();
-	session_start();
-		$error = NULL;
-		if($_SERVER["REQUEST_METHOD"] == "POST") {
-			// connect.php (tells where to connect servername, dbaseName, username, password)
-			require "Database_mysqli.php";
-			// username and passwrod sent from form 
-			$myusername = mysqli_real_escape_string($conn, $_POST['username']);
-			$mypassword = mysqli_real_escape_string($conn, $_POST['password']);
+	$error = NULL;
+	if($_SERVER["REQUEST_METHOD"] == "POST") {
 			
-			$query = "SELECT Username FROM Users WHERE Username = '$myusername' and Password = '$mypassword'";
-			
-			$result = mysqli_query($conn, $query);
-			$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-			
-			$count = mysqli_num_rows($result);
-			
-			// if result matched $my_username and $mypassword, table row must be 1 row
-			if($count == 1) {
-				$_SESSION['login_user'] = $myusername;
-				header("location: index.html");
-			} else {
-				$error = "Invalid Credentials. Please Try Again";
-				}
+		require "Database_mysqli.php";
+		
+		$myusername = $_POST['username'];
+
+		$insertquery = "DELETE FROM Users WHERE Username = '$myusername'";
+
+		if (mysqli_query($conn, $insertquery))
+			{
+			$error = "User Successfully Thrown Into The Void";
+			$color = '#3d9c46';
 		}
-	ob_end_flush();
+		else 
+		{
+			$error = "Error: Username Does Not Exist";
+			$color = '#d44e6b';
+		}
+	}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset = "utf-8" />
-		<title>Login</title>
+		<title>User Delete - Zephyrus</title>
 		
 		<link rel="stylesheet" href="css/style_login.css">
 		
@@ -40,47 +35,100 @@
 		
 		<div class="grid-container">
 			
-			<div class="nav" style="background-image: url('8.jpg'); background-size: 100vw 60vw;">
-				<ul>
-					<li><a href="index.html">ZEPHYRUS</a></li>
-				</ul>
-			</div>
+			<?php
+				require 'loading.php';
+			?>
 			
-			<div class="content" style="background-image: url('8.jpg'); background-size: 100vw 60vw;">
+			<div class="content" style="background-image: url('images/img_20.jpg'); background-size: 100vw 58vw;">
 			
+				
+				<div class="nav" style="z-index: 2; background-color:rgba(0, 0, 0, 0.4);">
+					<ul>
+						<li><a href="index.php" style="color: white;"><img src="images/icon_5.png" style="height: 1.95vw; width: 1.95vw; margin-right: 0.5vw; margin-bottom: -0.4vw;" draggable="false">ZEPHYRUS</a></li>
+					</ul>
+				</div>
+				
+				
 				<div class="scroll-area">
 					
-					<h1>Feel The Beat.</h1>
-					<h2>Find your Journey</h2>
+					<h1 style="font-size: 4.6vw;">Matrix Mainframe.</h1>
+					<h2 style="margin-left: 9.2vw; margin-top: -1vw; font-size: 2.5vw;">Graeme's Music Settings Block</h2>
 				
 				</div>
+				
+				<div class="table" style="background-color: transparent; color: white; width: 40vw; height: 15vw; margin: 25vw 0vw 10vw 8vw; overflow-y: scroll;">
+					
+					<div class="row" style="display: grid; grid-template-columns: 1fr 1fr; background-color: white; color: darkgreen; border-bottom: 0.1vw solid grey; transition: 0.15s ease-in-out;">
+
+							<div class="ID" style="grid-column: 1;"><p style="margin: 0.5vw 2vw; font-size: 1vw;">Username</p></div>
+
+							<div class="Title" style="grid-column: 2; border-right: 0.1vw solid grey;"><p style="margin: 0.5vw; font-weight: bold; font-size: 1vw;">Password</p></div>
+
+						</div>
+					
+					<?php
+							require "Database_mysqli.php";
+
+							//Creates a varible to store the sql query
+							$query = ("SELECT u.Username, u.Password
+							FROM Users AS u
+							
+							ORDER BY u.Username ASC");
+
+							//Runs and stores the query using the varibles $con (see nav.php) and $query
+							$result = mysqli_query($conn,$query);
+							//runs in a 'while' loop
+							while($output=mysqli_fetch_array($result))
+							{
+							
+						?>
+						<!--php is above. HTML is below. Used to output the query results-->
+
+						<div class="row" style="display: grid; grid-template-columns: 1fr 1fr; border-bottom: 0.1vw solid grey; transition: 0.15s ease-in-out;">
+
+							<div class="ID" style="grid-column: 1;"><p style="margin: 0.5vw 2vw; font-size: 1vw;"><?php echo $output['Username']; ?></p></div>
+
+							<div class="Title" style="grid-column: 2; border-right: 0.1vw solid grey;"><p style="margin: 0.5vw; font-weight: bold; font-size: 1vw;"><?php echo $output['Password']; ?></p></div>
+
+						</div>
+					
+						<?php
+						//Closes the output while loop
+						}
+						?>
+				
+				</div>
+						
 		
 			</div>
 			
-			<div class="section3">
+			<div class="section3" style="z-index: 3; margin-right: 3vw;">
+			
+				<img src="images/icon_1.png" alt="Italian Trulli" style="height: 10vw; width: 10vw; margin: 6vw 0vw 0vw 11vw;" draggable="false">
 				
-				<h3 style="color: darkblue; margin: 6vw 0vw 0vw 13vw; font-size: 2vw; font-weight: bold;">LOGIN</h3>
+				<h3 style="color: black; margin: 0.1vw 0vw 0vw 13vw; font-size: 1.5vw; font-weight: bold;">DELETE</h3>
 			
 				<h3><form method = "post" id = "01_login">
 					<input style="border: none; 
-								border-bottom: 0.25vw solid darkblue;
+								border-bottom: 0.25vw solid #1a1e36;
 								padding: 0.4vw 0.6vw;
 								margin: 2vw 2vw 0vw 4.5vw;
 								width: 21vw;
 								font-size: 1.2vw;"
-					type = "text" name = "username" placeholder="Username"/>
-					
-					<input type = "password" name = "password" placeholder="Password" id = "myInput"/>
+					type = "text" name = "username"  autocomplete="off" placeholder="Username"/>
 					
 					<!-- An element to toggle between password visibility -->
 					
-					<input type="checkbox" onclick="myFunction()"><label for="checkbox" style="font-size: 1vw; font-weight: normal;">Show Password</label>
+					<input type = "submit" value = "Commence Erradication"/>
 					
-					<input type = "submit" value = "Submit"/>
 					
-					<a href="https://www.w3schools.com/" style="color: darkblue; font-size:1vw; font-weight: normal; margin: 0vw 0vw 0vw 12vw;">Register New User</a>
+					<a href="index.php" style="color: darkblue; font-size:1vw; font-weight: normal; margin: 0vw 0vw 0vw 11vw;">Return Back To Index</a>
 						
-					</form></h3><h3 style="color: red; margin: 0vw 7vw; font-size: 1.1vw; font-weight: normal;"><?php echo $error; ?></h3>
+					</form></h3><h3 style="background-color: <?php echo $color; ?>; color: white; margin: 0vw 5.5vw; padding-left: 1.5vw; line-height: 2.2vw; font-size: 1.1vw; font-weight: normal;"><?php echo $error; ?></h3>
+				
+					<form action="update_V2.php"><input type = "submit" value = "Protocol 1: Update User"/></form>
+				
+					<form action="register_V2.php"><input type = "submit" value = "Protocol 2: Add New User"/></form>
 		
 			</div>
 			
